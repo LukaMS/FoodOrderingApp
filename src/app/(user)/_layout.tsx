@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Redirect, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Redirect, Tabs, useRouter } from 'expo-router';
 
 import Colors from '@/src/constants/Colors';
 import { useColorScheme } from '@/src/components/useColorScheme';
@@ -18,11 +17,14 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const {session} = useAuth();
+  const { session } = useAuth();
+  const router = useRouter();
 
-  if(!session) {
-      return <Redirect href={'/'}/>
-  }
+  useEffect(() => {
+    if (!session) {
+      router.replace('/sign-in');
+    }
+  }, [session]);
 
   return (
     <Tabs
